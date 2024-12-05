@@ -1,0 +1,3 @@
+Registos de Morbilidade e mortalidade hospitalar, nos hospitais de todo o país de 2016 a 2020.
+Inclui o período, o código, a descrição e capítulo diagnóstico, a instituição, região, faixa etária, 
+ género, internamentos, duração do internamento, ambúlatório e os óbidos

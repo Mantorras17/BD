@@ -1,0 +1,131 @@
+1. Qual é o número de óbitos por género?
+    Mostra o género e o número de óbitos.
+
+SELECT paciente.genero, SUM(estatistica.obitos) as obitos
+FROM estatistica
+NATURAL JOIN paciente
+GROUP BY paciente.genero
+ORDER BY obitos DESC
+
+
+2. Qual é o número de óbitos por faixa etaria?
+    Mostra a idade minima, idade máxima, e o número de óbitos. Ordena por idade mínima.
+
+SELECT faixa_etaria.idade_min, faixa_etaria.idade_max, SUM(estatistica.obitos) as obitos
+FROM estatistica
+NATURAL JOIN paciente
+NATURAL JOIN faixa_etaria
+GROUP BY faixa_etaria.idade_min
+ORDER BY obitos DESC
+
+
+3. Qual é o número de óbitos registados por região?
+    Mostra o nome da região e o número de óbitos, ordenado pelo numero de óbitos descendente.
+
+SELECT regiao.nome, SUM(estatistica.obitos) as obitos
+FROM estatistica
+NATURAL JOIN hospital
+NATURAL JOIN regiao
+GROUP BY regiao.regiao_id
+ORDER BY obitos DESC
+
+
+4. Quais são as doenças mais mortiferas por região?
+    Mostra o nome da região, a descrição da doença e os óbitos. Ordena pelos óbitos descendentes.
+
+5. Qual é o número total de internamentos por hospital?
+    Mostra o nome do hospital e o número de internamentos, ordenado pelo numero de internamentos descendente.
+
+SELECT hospital.hospital_id, hospital.nome, SUM(estatistica.internamentos) AS internamentos
+FROM estatistica
+NATURAL JOIN hospital
+GROUP BY hospital.hospital_id
+ORDER BY internamentos DESC
+
+
+6. Quais as regiões com o número de óbitos maior que 10000?
+    Mostra o nome da região, o número de óbidos e o número de óbitos. Ordenados pelo número de óbidos decrescente.
+
+SELECT regiao.nome, SUM(estatistica.obitos) as obitos
+FROM estatistica
+NATURAL JOIN hospital
+NATURAL JOIN regiao
+GROUP BY regiao.regiao_id
+HAVING SUM(estatistica.obitos)>10000
+ORDER BY obitos DESC
+
+
+7. Qual é o número de óbitos por doença?
+    Mostra o id da doença, a descrição da doença e o número de óbitos, ordenado pelo id da doença.
+
+SELECT doenca.doenca_id, doenca.descricao, SUM(estatistica.obitos) as obitos
+FROM estatistica
+NATURAL JOIN doenca
+GROUP BY doenca.doenca_id
+ORDER BY obitos DESC
+
+
+8. Qual a média de óbitos por doença?
+    Mostra o id da doença, a descrição da doença e, dos registados (óbitos+internamentos+ambulatório), quantos foram óbitos. Ordena pela média descendente.
+
+SELECT doenca.doenca_id, doenca.descricao, AVG(estatistica.obitos*1.0/(estatistica.obitos+estatistica.ambulatorio+estatistica.internamentos)) AS media
+FROM estatistica
+NATURAL JOIN doenca
+WHERE (estatistica.obitos+estatistica.ambulatorio+estatistica.internamentos)>0
+GROUP BY doenca.doenca_id
+ORDER BY media DESC
+
+
+9. Qual a média de óbitos por hospital?
+    Mostra o código do hospital, o nome do hospital e, dos registados (óbitos+internamentos+ambulatório), quantos foram óbitos. Ordena pela média descendente.
+
+SELECT hospital.hospital_id, hospital.nome, AVG(estatistica.obitos*1.0/(estatistica.obitos+estatistica.ambulatorio+estatistica.internamentos)) AS media
+FROM estatistica
+NATURAL JOIN hospital
+WHERE (estatistica.obitos+estatistica.ambulatorio+estatistica.internamentos)>0
+GROUP BY hospital.hospital_id
+ORDER BY media DESC
+
+
+10. Qual a média de dias de internamento, para cada doença?
+    Mostra o id da doença, a descrição da doença, e a média de dias de internamento. Ordena por média descendente.
+
+SELECT doenca.doenca_id, doenca.descricao, SUM(estatistica.dias_de_internamento)/SUM(estatistica.internamentos) AS media
+FROM estatistica
+NATURAL JOIN doenca
+GROUP BY doenca.doenca_id
+ORDER BY media DESC
+
+
+11. Qual o número de óbitos de crianças, adolescentes, adultos e idosos?
+    Mostra o número de óbitos por crianças(0<=idade_min<15), jovens(idade_min>=15,idade_max<=25), adultos(idade_min>=25, idade_max<=65) e idosos(idade_min<=65).
+
+SELECT 
+    CASE 
+        WHEN faixa_etaria.idade_min >= 0 AND faixa_etaria.idade_max <= 15 THEN 'Crianças'
+        WHEN faixa_etaria.idade_min >= 15 AND faixa_etaria.idade_max <= 25 THEN 'Jovens'
+        WHEN faixa_etaria.idade_min >= 25 AND faixa_etaria.idade_max <= 65 THEN 'Adultos'
+        WHEN faixa_etaria.idade_min >= 65 THEN 'Idosos'
+    END AS faixa_etaria, SUM(estatistica.obitos) AS obitos
+FROM estatistica
+NATURAL JOIN paciente
+NATURAL JOIN faixa_etaria
+GROUP BY faixa_etaria
+ORDER BY obitos DESC;
+
+
+12. Como variou o número de óbidos ao longo do tempo?
+    Mostra o periodo e o número de óbidos. Ordena pelo crescente.
+
+SELECT estatistica.periodo, SUM(estatistica.obitos) AS obidos
+FROM estatistica
+GROUP BY estatistica.periodo
+ORDER BY periodo
+
+
+13. Qual a média de óbitos por ano?
+
+SELECT SUBSTRING(estatistica.periodo,1,4) AS ano, SUM(estatistica.obitos) AS obitos
+FROM estatistica
+GROUP BY ano
+ORDER BY obitos DESC;
