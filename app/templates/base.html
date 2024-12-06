@@ -1,0 +1,14 @@
+<!doctype html>
+<title>Flask application</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/hospitals">Hospitais</a>
+    <a href="/regions">Regiões</a>
+    <a href="/diseases">Doenças</a>
+  </nav>
+</header>
+<section class="content">
+  {% block content %}{% endblock %}
+</section>

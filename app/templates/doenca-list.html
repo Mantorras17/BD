@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<table>
+  <!-- Header row -->
+  <tr id="header">
+    <th>Id</th>
+    <th>Descricao</th>
+  </tr>
+
+  <!-- Hospital rows -->
+  {% for d in diseases %}
+  <tr>
+    <td><a href="/diseases/{{ d.doenca_id }}">{{ d.doenca_id }}</a></td>
+    <td>{{ d.descricao }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<style>
+  table {
+    width: 100%;
+  }
+</style>
+{% endblock %}

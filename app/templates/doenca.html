@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-container">
+    <h1 class="title">{{ count.descricao }}</h1>
+    <div class="go-back">
+        <a href="javascript:history.back();">&larr; Go Back</a>
+    </div>
+</div>
+<p><b>ID: </b>{{ count.doenca_id }}</p>
+<table>
+    <tr id="header">
+      <th>Obitos</th>
+      <th>Ambulatório</th>
+      <th>Internamentos</th>
+    </tr>
+    <tr>
+      <td>{{ count.o }}</a></td>
+      <td>{{ count.a }}</td>
+      <td>{{ count.i }}</a></td>
+    </tr>
+</table>
+
+<div class="dropdown-container">
+    <div class="dropdown">
+        <div class="select">
+            <span class="selected">Por Região</span>
+            <div class="caret"></div>
+        </div>
+        <div class="menu">
+            <table>
+                <!-- Header row -->
+                <tr id="header">
+                    <th>ID</th>
+                    <th>Região</th>
+                    <th>Mais Informações</th>
+                </tr>
+                <!-- region rows -->
+                {% for r in regions %}
+                <tr>
+                    <td><a href="/regions/{{ r.regiao_id }}">{{ r.regiao_id }}</a></td>
+                    <td>{{ r.nome }}</td>
+                    <td><a href="/regions/{{ r.regiao_id }}/{{ count.doenca_id}}">Estatisticas</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="dropdown">
+        <div class="select">
+            <span class="selected">Por Hospital</span>
+            <div class="caret"></div>
+        </div>
+        <div class="menu">
+            <table>
+                <!-- Header row -->
+                <tr id="header">
+                    <th>ID</th>
+                    <th>Hospital</th>
+                    <th>Mais Informações</th>
+                </tr>
+                <!-- region rows -->
+                {% for h in hospitals %}
+                <tr>
+                    <td><a href="/hospitals/{{ h.hospital_id }}">{{ h.hospital_id }}</a></td>
+                    <td>{{ h.nome }}</td>
+                    <td><a href="/hospitals/{{ h.hospital_id }}/{{ count.doenca_id}}">Estatisticas</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+  
+<style>
+    table {
+      width: 100%;
+    }
+    .dropdown-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+    }
+    .dropdown {
+      position: relative;
+    }
+
+    .select {
+        display: flex;
+    }
+  </style>
+<script>
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+        const select = dropdown.querySelector('.select');
+        const caret = dropdown.querySelector('.caret');
+        const menu = dropdown.querySelector('.menu');
+        const options = dropdown.querySelectorAll('.menu tr');
+        const selected = dropdown.querySelector('.selected');
+
+        select.addEventListener('click', () => {
+            select.classList.toggle('select-clicked');
+            caret.classList.toggle('caret-rotate');
+            menu.classList.toggle('menu-open');
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                selected.innerText = option.innerText;
+                select.classList.remove('select-clicked');
+                caret.classList.remove('caret-rotate');
+                menu.classList.remove('menu-open');
+                options.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %}

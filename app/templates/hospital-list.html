@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<table>
+  <!-- Header row -->
+  <tr id="header">
+    <th>Id</th>
+    <th>Nome</th>
+    <th>Região</th>
+  </tr>
+
+  <!-- Hospital rows -->
+  {% for hospital in hospitals %}
+  <tr>
+    <td><a href="/hospitals/{{ hospital.hospital_id }}">{{ hospital.hospital_id }}</a></td>
+    <td>{{ hospital.nome }}</td>
+    <td><a href="/regions/{{ hospital.regiao_id }}">{{ hospital.regiao_id }}</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<style>
+  table {
+    width: 100%;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-container">
+    <h1 class="title">{{ stats.hospital }}</h1>
+    <div class="go-back">
+        <a href="javascript:history.back();">&larr; Go Back</a>
+    </div>
+</div>
+<p><b>ID: </b>{{ stats.hospital_id }}</p>
+<p><b>Região: </b> <a href="/regions/{{ stats.regiao_id }}">{{ stats.regiao }}</a></p>
+<p><b>Doenca: </b> <a href="/regions/{{ stats.doenca_id }}">{{ stats.descricao }}</a></p>
+<table>
+    <tr id="header">
+      <th>Obitos</th>
+      <th>Ambulatório</th>
+      <th>Internamentos</th>
+    </tr>
+    <tr>
+      <td>{{ stats.o }}</a></td>
+      <td>{{ stats.a }}</td>
+      <td>{{ stats.i }}</a></td>
+    </tr>
+</table>
+<div class="dropdown-container">
+    <div class="dropdown">
+        <div class="select">
+            <span class="selected">Por Género</span>
+            <div class="caret"></div>
+        </div>
+        <div class="menu">
+            <table>
+                <!-- Header row -->
+                <tr id="header">
+                    <th>Género</th>
+                    <th>Obitos</th>
+                    <th>Ambulatório</th>
+                    <th>Internamentos</th>
+                </tr>
+                <!-- region rows -->
+                {% for g in genero %}
+                <tr>
+                    <td>{{ g.genero }}</td>
+                    <td>{{ g.o }}</a></td>
+                    <td>{{ g.a }}</td>
+                    <td>{{ g.i }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="dropdown">
+        <div class="select">
+            <span class="selected">Por Faixa Etária</span>
+            <div class="caret"></div>
+        </div>
+        <div class="menu">
+            <table>
+                <!-- Header row -->
+                <tr id="header">
+                    <th>Faixa</th>
+                    <th>Obitos</th>
+                    <th>Ambulatório</th>
+                    <th>Internamentos</th>
+                </tr>
+                <!-- region rows -->
+                {% for f in faixa %}
+                <tr>
+                    <td>{{ f.age_range }}</td>
+                    <td>{{ f.o }}</a></td>
+                    <td>{{ f.a }}</td>
+                    <td>{{ f.i }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="dropdown">
+        <div class="select">
+            <span class="selected">Por Género e Faixa Etária</span>
+            <div class="caret"></div>
+        </div>
+        <div class="menu">
+            <table>
+                <!-- Header row -->
+                <tr id="header">
+                    <th>Faixa</th>
+                    <th>Género</th>
+                    <th>Obitos</th>
+                    <th>Ambulatório</th>
+                    <th>Internamentos</th>
+                </tr>
+                <!-- region rows -->
+                {% for a in ambos %}
+                <tr>
+                    <td>{{ a.age_range }}</td>
+                    <td>{{ a.genero }}</td>
+                    <td>{{ a.o }}</a></td>
+                    <td>{{ a.a }}</td>
+                    <td>{{ a.i }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="dropdown">
+        <div class="select">
+            <span class="selected">Por Periodo</span>
+            <div class="caret"></div>
+        </div>
+        <div class="menu">
+            <table>
+                <!-- Header row -->
+                <tr id="header">
+                    <th>Periodo</th>
+                    <th>Obitos</th>
+                    <th>Ambulatório</th>
+                    <th>Internamentos</th>
+                </tr>
+                <!-- region rows -->
+                {% for p in periodo %}
+                <tr>
+                    <td>{{ p.periodo }}</td>
+                    <td>{{ p.o }}</a></td>
+                    <td>{{ p.a }}</td>
+                    <td>{{ p.i }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+  
+<style>
+    table {
+      width: 100%;
+    }
+    .dropdown-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+    }
+    .dropdown {
+      position: relative;
+    }
+
+    .select {
+        display: flex;
+    }
+  </style>
+<script>
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+        const select = dropdown.querySelector('.select');
+        const caret = dropdown.querySelector('.caret');
+        const menu = dropdown.querySelector('.menu');
+        const options = dropdown.querySelectorAll('.menu tr');
+        const selected = dropdown.querySelector('.selected');
+
+        select.addEventListener('click', () => {
+            select.classList.toggle('select-clicked');
+            caret.classList.toggle('caret-rotate');
+            menu.classList.toggle('menu-open');
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                selected.innerText = option.innerText;
+                select.classList.remove('select-clicked');
+                caret.classList.remove('caret-rotate');
+                menu.classList.remove('menu-open');
+                options.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach((dropdown, index) => {
+            const select = dropdown.querySelector('.select');
+            const menu = dropdown.querySelector('.menu');
+            const delay = index * 0.3; // Add delay based on index (e.g., 300ms per dropdown)
+
+            select.addEventListener('click', () => {
+                dropdowns.forEach((d, i) => {
+                    if (i <= index) {
+                        d.classList.add('menu-open');
+                        d.style.transitionDelay = `${i * 0.3}s`;
+                    } else {
+                        d.classList.remove('menu-open');
+                        d.style.transitionDelay = '0s';
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}
