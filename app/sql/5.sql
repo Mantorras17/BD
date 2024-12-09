@@ -1,4 +1,4 @@
---5. Quais as regiões com o número de óbitos maior que 10000? Mostra o nome da região, o número de óbidos e o número de óbitos. Ordenados pelo número de óbidos decrescente.
+--5. Quais as regioes com o numero de obitos maior que 10000? Mostra o nome da regiao, o numero de obidos e o numero de obitos. Ordenados pelo numero de obitos decrescente.
 
 SELECT REGIOES.nome, SUM(ESTATISTICAS.obitos) as obitos
 FROM ESTATISTICAS
