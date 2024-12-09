@@ -1,4 +1,4 @@
---2. Qual e o numero de obitos por faixa etaria? Mostra a idade minima, idade máxima, e o numero de obitos. Ordena por idade minima.
+--2. Qual e o numero de obitos por faixa etaria? Mostra a idade minima, idade maxima, e o numero de obitos. Ordena por idade minima.
 
 SELECT FAIXAS_ETARIAS.idade_min, FAIXAS_ETARIAS.idade_max, SUM(ESTATISTICAS.obitos) as obitos
 FROM ESTATISTICAS
