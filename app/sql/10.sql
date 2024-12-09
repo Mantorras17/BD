@@ -1,4 +1,4 @@
---10. Qual o número de óbitos de crianças, adolescentes, adultos e idosos? Mostra o número de óbitos por crianças(0<=idade_min<15), jovens(idade_min>=15,idade_max<=25), adultos(idade_min>=25, idade_max<=65) e idosos(idade_min<=65).
+--10. Qual o numero de obitos de criancas, adolescentes, adultos e idosos? Mostra o numero de obitos por criancas(0<=idade_min<15), jovens(idade_min>=15,idade_max<=25), adultos(idade_min>=25, idade_max<=65) e idosos(idade_min<=65).
 
 SELECT 
     CASE 
