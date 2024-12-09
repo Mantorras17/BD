@@ -1,16 +1,13 @@
 import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
-from flask import abort, render_template, Flask, jsonify
+from flask import abort, render_template, Flask, jsonify, request
 import logging
 import sqlite3
 import db
 import random
+import os
 
 APP = Flask(__name__)
-
-@APP.route('/queries')
-def queries():
-  return render_template('queries.html')
 
 # Start page
 @APP.route('/')
@@ -551,3 +548,35 @@ def line_data():
     except sqlite3.OperationalError as e:
         return jsonify({"error": str(e), "message": "Please ensure the ESTATISTICAS table exists in the database."}), 500
 
+SQL_FOLDER = os.path.join(os.path.dirname(__file__), 'sql')
+
+def execute_query_from_file(file_number):
+    """Read a SQL query from a file and execute it."""
+    sql_file_path = os.path.join(SQL_FOLDER, f"{file_number}.sql")
+    if not os.path.exists(sql_file_path):
+        return {"error": f"SQL file {file_number}.sql not found."}
+
+    try:
+        with open(sql_file_path, 'r') as sql_file:
+            query = sql_file.read()
+        conn = sqlite3.connect('morbilidade.db')
+        cursor = conn.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        columns = [description[0] for description in cursor.description]
+        conn.close()
+        return {"columns": columns, "results": results, "query": query}
+    except sqlite3.Error as e:
+        return {"error": str(e)}
+
+@APP.route('/query-result/<int:file_number>', methods=['GET'])
+def query_result(file_number):
+    query_result = execute_query_from_file(file_number)
+    return render_template('query_result.html', query_result=query_result, file_number=file_number)
+
+@APP.route('/queries')
+def query_form():
+    """Display a list of available queries."""
+    sql_files = [f for f in os.listdir(SQL_FOLDER) if f.endswith('.sql')]
+    query_numbers = sorted(int(f.split('.')[0]) for f in sql_files)
+    return render_template('queries.html', query_numbers=query_numbers)
