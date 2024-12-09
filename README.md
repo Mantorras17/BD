@@ -8,7 +8,7 @@
 - [x] ciração do esquema da BD no SGBD escolhido (pode ser em SQLite)
 - [x] povoamento da BD com a totalidade dos dados do dataset
 - [x] elaboração de 10+ interrogações em SQL de complexidade variável, extraindo conteúdo revelante do dataset e ilustrando as técnicas de interrugação estruturadas
-- [ ] construção de uma interface em Python com acesso à BD
+- [x] construção de uma interface em Python com acesso à BD
 - [ ] escrita do relatório e entrega no Moodle (até 09/12/2024)
 - [ ] apresentação do trabalho na aula prática da semana de (12-18/12/2024)
 
