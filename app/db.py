@@ -24,4 +24,3 @@ def execute(sql,args=None):
 def close():
   global DB
   DB['conn'].close()
-

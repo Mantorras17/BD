@@ -8,7 +8,7 @@
 </div>
 <p><b>ID: </b>{{ stats.hospital_id }}</p>
 <p><b>Região: </b> <a href="/regions/{{ stats.regiao_id }}">{{ stats.regiao }}</a></p>
-<p><b>Doenca: </b> <a href="/regions/{{ stats.doenca_id }}">{{ stats.descricao }}</a></p>
+<p><b>Doenca: </b> <a href="/diseases/{{ stats.doenca_id }}">{{ stats.descricao }}</a></p>
 <table>
     <tr id="header">
       <th>Obitos</th>
@@ -170,29 +170,6 @@
                 menu.classList.remove('menu-open');
                 options.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
-            });
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const dropdowns = document.querySelectorAll('.dropdown');
-        
-        dropdowns.forEach((dropdown, index) => {
-            const select = dropdown.querySelector('.select');
-            const menu = dropdown.querySelector('.menu');
-            const delay = index * 0.3; // Add delay based on index (e.g., 300ms per dropdown)
-
-            select.addEventListener('click', () => {
-                dropdowns.forEach((d, i) => {
-                    if (i <= index) {
-                        d.classList.add('menu-open');
-                        d.style.transitionDelay = `${i * 0.3}s`;
-                    } else {
-                        d.classList.remove('menu-open');
-                        d.style.transitionDelay = '0s';
-                    }
-                });
             });
         });
     });

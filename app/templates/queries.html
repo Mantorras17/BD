@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h1>Algumas Queries</h1>
+<div>
+    <h2>1. Qual é o número de óbitos por género? Mostra o género e o número de óbitos.</h2>
+    <pre>
+        <code>
+            <p>SELECT GRUPOS.genero, SUM(ESTATISTICAS.obitos) as obitos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN GRUPOS</p>
+            <p>GROUP BY GRUPOS.genero</p>
+            <p>ORDER BY obitos DESC</p>
+        </code>
+    </pre>
+</div>
+<div>
+    <h2>2. Qual é o número de óbitos por faixa etaria? Mostra a idade minima, idade máxima, e o número de óbitos. Ordena por idade mínima.
+</h2>
+    <pre>
+        <code>
+            <p>SELECT FAIXAS_ETARIAS.idade_min, FAIXAS_ETARIAS.idade_max, SUM(ESTATISTICAS.obitos) as obitos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN GRUPOS</p>
+            <p>JOIN FAIXAS_ETARIAS ON GRUPOS.faixa_etaria_id = FAIXAS_ETARIAS.faixa_etaria_id</p>
+            <p>GROUP BY FAIXAS_ETARIAS.idade_min</p>
+            <p>ORDER BY obitos DESC</p>
+        </code>
+    </pre>
+</div>
+<div>
+    <h2>3. Qual é o número de óbitos registados por região? Mostra o nome da região e o número de óbitos, ordenado pelo numero de óbitos descendente.</h2>
+    <pre>
+        <code>
+            <p>SELECT REGIOES.nome, SUM(ESTATISTICAS.obitos) as obitos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN HOSPITAIS</p>
+            <p>NATURAL JOIN REGIOES</p>
+            <p>GROUP BY REGIOES.regiao_id</p>
+            <p>ORDER BY obitos DESC</p>
+        </code>
+    </pre>
+</div>
+<div>
+    <h2>4. Qual é o número total de internamentos por hospital? Mostra o nome do hospital e o número de internamentos, ordenado pelo numero de internamentos descendente.</h2>
+    <pre>
+        <code>
+            <p>SELECT HOSPITAIS.hospital_id as id, HOSPITAIS.nome as hospital, SUM(ESTATISTICAS.internamentos) AS internamentos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN HOSPITAIS</p>
+            <p>GROUP BY HOSPITAIS.hospital_id</p>
+            <p>ORDER BY internamentos DESC</p>
+        </code>
+    </pre>
+</div>
+<div>
+    <h2>5. Quais as regiões com o número de óbitos maior que 10000? Mostra o nome da região, o número de óbidos e o número de óbitos. Ordenados pelo número de óbidos decrescente.</h2>
+    <pre>
+        <code>
+            <p>SELECT REGIOES.nome, SUM(ESTATISTICAS.obitos) as obitos</p>
+            <p> FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN HOSPITAIS</p>
+            <p>JOIN REGIOES ON HOSPITAIS.regiao_id = REGIOES.regiao_id</p>
+            <p>GROUP BY REGIOES.regiao_id</p>
+            <p>HAVING SUM(ESTATISTICAS.obitos)>10000</p>
+            <p>ORDER BY obitos DESC</p>
+        </code>
+    </pre>
+</div>
+<div>
+    <h2></h2>
+    <pre>
+        <code>
+            
+        </code>
+    </pre>
+</div>
+<div>
+    <h2></h2>
+    <pre>
+        <code>
+            
+        </code>
+    </pre>
+</div>
+<div>
+    <h2></h2>
+    <pre>
+        <code>
+            
+        </code>
+    </pre>
+</div>
+<div>
+    <h2></h2>
+    <pre>
+        <code>
+            
+        </code>
+    </pre>
+</div>
+<div>
+    <h2></h2>
+    <pre>
+        <code>
+            
+        </code>
+    </pre>
+</div>
+<div>
+    <h2></h2>
+    <pre>
+        <code>
+            
+        </code>
+    </pre>
+</div>
+<div>
+    <h2></h2>
+    <pre>
+        <code>
+            
+        </code>
+    </pre>
+</div>
+<style>
+    pre {
+        font-size: 20px;
+        line-height: 2px;
+    }
+</style>
+{% endblock %}

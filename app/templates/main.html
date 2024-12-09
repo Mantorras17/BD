@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Morbilidade database</h1>
+
+<h2>Database values</h2>
+<table>
+<tr>
+  <th>Items</th>
+  <th>Count</th>
+</tr>
+<tr>
+  <td>Doencas</td>
+  <td>{{ stats.doenca }}</td>
+</tr>
+<tr>
+  <td>Estatistica</td>
+  <td>{{ stats.estatistica }}</td>
+</tr>
+<tr>
+  <td>Faixa Etária</td>
+  <td>{{ stats.faixa }}</td>
+</tr>
+<tr>
+  <td>Hospital</td>
+  <td>{{ stats.hospital }}</td>
+</tr>
+<tr>
+  <td>Regiao</td>
+  <td>{{ stats.regiao }}</td>
+</tr>
+</table>
+
+<h2>Some Statistics</h2>
+<div>
+  <canvas id="chart" width="300" height="300"></canvas>
+  <canvas id="chart-faixa" width="300" height="300"></canvas>
+  <canvas id="chart-periodo" width="400" height="300"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    fetch('/radar-data')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: data,
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    
+    fetch('/radar-data-faixa')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('chart-faixa').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: data,
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    
+    // Fetch data from Flask endpoint
+    fetch('/line-data')
+      .then(response => response.json())
+      .then(data => {
+          const ctx = document.getElementById('chart-periodo').getContext('2d');
+          new Chart(ctx, {
+              type: 'line',
+              data: data,
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: { position: 'top' },
+                      title: { display: true, text: 'Estatisticas (Jan 2016 - Nov 2020)' }
+                  },
+                  scales: {
+                      x: { title: { display: true, text: 'Período' } },
+                      y: { title: { display: true, text: 'Valores' } }
+                  }
+              }
+          });
+      })
+      .catch(error => console.error('Error fetching chart data:', error));
+</script>
+
+
+<style>
+  table {
+    width: 100%;
+  }
+</style>
+{% endblock %}
