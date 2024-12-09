@@ -355,7 +355,7 @@ def get_region_disease(r_id, d_id):
   
   return render_template('region-disease.html', diseases=diseases, stats=stats, periodo=periodo, genero=genero, faixa=faixa, ambos=ambos)
 
-# ------------------------------------------------- DOENCAS
+# ------------------------------------------------- DOENCAS --------------------------------------------------------------------------------------------------
 
 @APP.route('/diseases/')
 def list_diseases():
