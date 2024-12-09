@@ -31,10 +31,10 @@ Incluí:
 * Número de Óbitos
 # Implementação
 ## UML de Classes
-<img width="5000" alt="UML" src="https://github.com/user-attachments/assets/96e15401-0ad3-4589-93a0-8b3315ae6afc">
+<img width="5000" alt="UML" src="https://github.com/Mantorras17/BD/blob/main/UML.png">
 
 ## Modelo Relacional
-<img width="5000" alt="RELACIONAL" src="https://github.com/user-attachments/assets/0a05dafa-2961-4404-992c-f247d7f555bc">
+<img width="5000" alt="RELACIONAL" src="https://github.com/Mantorras17/BD/blob/main/RELACIONAL.png">
 
 
 
