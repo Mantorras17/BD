@@ -14,6 +14,7 @@
             <p>ORDER BY obitos DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/1">Results from query 1</a></li>
 </div>
 <div>
     <h2>2. Qual é o número de óbitos por faixa etaria? Mostra a idade minima, idade máxima, e o número de óbitos. Ordena por idade mínima.
@@ -28,6 +29,7 @@
             <p>ORDER BY obitos DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/2">Results from query 2</a></li>
 </div>
 <div>
     <h2>3. Qual é o número de óbitos registados por região? Mostra o nome da região e o número de óbitos, ordenado pelo numero de óbitos descendente.</h2>
@@ -36,11 +38,12 @@
             <p>SELECT REGIOES.nome, SUM(ESTATISTICAS.obitos) as obitos</p>
             <p>FROM ESTATISTICAS</p>
             <p>NATURAL JOIN HOSPITAIS</p>
-            <p>NATURAL JOIN REGIOES</p>
+            <p>JOIN REGIOES ON HOSPITAIS.regiao_id = REGIOES.regiao_id</p>
             <p>GROUP BY REGIOES.regiao_id</p>
             <p>ORDER BY obitos DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/3">Results from query 3</a></li>
 </div>
 <div>
     <h2>4. Qual é o número total de internamentos por hospital? Mostra o nome do hospital e o número de internamentos, ordenado pelo numero de internamentos descendente.</h2>
@@ -53,6 +56,7 @@
             <p>ORDER BY internamentos DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/4">Results from query 4</a></li>
 </div>
 <div>
     <h2>5. Quais as regiões com o número de óbitos maior que 10000? Mostra o nome da região, o número de óbidos e o número de óbitos. Ordenados pelo número de óbidos decrescente.</h2>
@@ -67,62 +71,105 @@
             <p>ORDER BY obitos DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/5">Results from query 5</a></li>
 </div>
 <div>
-    <h2></h2>
+    <h2>6. Qual é o número de óbitos por doença? Mostra o id da doença, a descrição da doença e o número de óbitos, ordenado pelo id da doença.</h2>
     <pre>
         <code>
-            
+            <p>SELECT DOENCAS.doenca_id as id, DOENCAS.descricao as doenca, SUM(ESTATISTICAS.obitos) as obitos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN DOENCAS</p>
+            <p>GROUP BY DOENCAS.doenca_id</p>
+            <p>ORDER BY obitos DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/6">Results from query 6</a></li>
 </div>
 <div>
-    <h2></h2>
+    <h2>7. Qual a percentagem de óbitos por doença? Mostra o id da doença, a descrição da doença e, dos registados (óbitos+internamentos+ambulatório), a percentagem de quantos foram óbitos. Ordena pela percentagem descendente.</h2>
     <pre>
         <code>
-            
+            <p>SELECT DOENCAS.doenca_id as id, DOENCAS.descricao as doenca, AVG(ESTATISTICAS.obitos*1.0/(ESTATISTICAS.obitos+ESTATISTICAS.ambulatorio+ESTATISTICAS.internamentos))*100 AS percentagem</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN DOENCAS</p>
+            <p>WHERE (ESTATISTICAS.obitos+ESTATISTICAS.ambulatorio+ESTATISTICAS.internamentos)>0</p>
+            <p>GROUP BY DOENCAS.doenca_id</p>
+            <p>ORDER BY percentagem DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/7">Results from query 7</a></li>
 </div>
 <div>
-    <h2></h2>
+    <h2>8. Qual a percentagem de óbitos por hospital? Mostra o código do hospital, o nome do hospital e, dos registados (óbitos+internamentos+ambulatório), a percentagem de quantos foram óbitos. Ordena pela percentagem descendente.</h2>
     <pre>
         <code>
-            
+            <p>SELECT HOSPITAIS.hospital_id as id, HOSPITAIS.nome as hospital, AVG(ESTATISTICAS.obitos*1.0/(ESTATISTICAS.obitos+ESTATISTICAS.ambulatorio+ESTATISTICAS.internamentos))*100 AS percentagem</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN HOSPITAIS</p>
+            <p>WHERE (ESTATISTICAS.obitos+ESTATISTICAS.ambulatorio+ESTATISTICAS.internamentos)>0</p>
+            <p>GROUP BY HOSPITAIS.hospital_id</p>
+            <p>ORDER BY percentagem DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/8">Results from query 8</a></li>
 </div>
 <div>
-    <h2></h2>
+    <h2>9. Qual a média de dias de internamento, para cada doença? Mostra o id da doença, a descrição da doença, e a média de dias de internamento. Ordena por média descendente.</h2>
     <pre>
         <code>
-            
+            <p>SELECT DOENCAS.doenca_id as id, DOENCAS.descricao as doenca, SUM(ESTATISTICAS.dias_de_internamento)/SUM(ESTATISTICAS.internamentos) AS media</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN DOENCAS</p>
+            <p>GROUP BY DOENCAS.doenca_id</p>
+            <p>ORDER BY media DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/9">Results from query 9</a></li>
 </div>
 <div>
-    <h2></h2>
+    <h2>10. Qual o número de óbitos de crianças, adolescentes, adultos e idosos? Mostra o número de óbitos por crianças(0<=idade_min<15), jovens(idade_min>=15,idade_max<=25), adultos(idade_min>=25, idade_max<=65) e idosos(idade_min<=65).</h2>
     <pre>
         <code>
-            
+            <p>SELECT</p>
+            <p>     CASE</p>
+            <p>        WHEN FAIXAS_ETARIAS.idade_min >= 0 AND FAIXAS_ETARIAS.idade_max <= 15 THEN 'Crianças'</p>
+            <p>        WHEN FAIXAS_ETARIAS.idade_min >= 15 AND FAIXAS_ETARIAS.idade_max <= 25 THEN 'Jovens'</p>
+            <p>        WHEN FAIXAS_ETARIAS.idade_min >= 25 AND FAIXAS_ETARIAS.idade_max <= 65 THEN 'Adultos'</p>
+            <p>        WHEN FAIXAS_ETARIAS.idade_min >= 65 THEN 'Idosos'</p>
+            <p>    END AS faixa_etaria, SUM(ESTATISTICAS.obitos) AS obitos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>NATURAL JOIN GRUPOS</p>
+            <p>NATURAL JOIN FAIXAS_ETARIAS</p>
+            <p>GROUP BY faixa_etaria</p>
+            <p>ORDER BY obitos DESC</p>
         </code>
     </pre>
+    <li><a href="/query-result/10">Results from query 10</a></li>
 </div>
 <div>
-    <h2></h2>
+    <h2>11. Como variou o número de óbidos ao longo do tempo? Mostra o periodo e o número de óbidos. Ordena pelo crescente.</h2>
     <pre>
         <code>
-            
+            <p>SELECT ESTATISTICAS.periodo, SUM(ESTATISTICAS.obitos) AS obidos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>GROUP BY ESTATISTICAS.periodo</p>
+            <p>ORDER BY periodo</p>
         </code>
     </pre>
+    <li><a href="/query-result/11">Results from query 11</a></li>
 </div>
 <div>
-    <h2></h2>
+    <h2>12. Como variaram os obitos ao longo dos anos?</h2>
     <pre>
         <code>
-            
+            <p>SELECT SUBSTRING(ESTATISTICAS.periodo,1,4) AS ano, SUM(ESTATISTICAS.obitos) AS obitos</p>
+            <p>FROM ESTATISTICAS</p>
+            <p>GROUP BY ano</p>
+            <p>ORDER BY ano</p>
         </code>
     </pre>
+    <li><a href="/query-result/12">Results from query 12</a></li>
 </div>
 <style>
     pre {
