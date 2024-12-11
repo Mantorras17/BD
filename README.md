@@ -1,3 +1,12 @@
+# Dependências
+ - Python3
+ - Flask
+ - SQLite
+
+# How to use
+ - Abra o diretorio 'app' e corra o programa 'server.py'
+ - No terminal, abra o servidor http://127.0.0.1:9000 para utilizar o website
+
 # To Do List:
 - [x] Constituição do grupo
 - [x] Atribuição de um tema a cada grupo, baseado num dataset com dados reais

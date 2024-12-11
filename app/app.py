@@ -449,7 +449,7 @@ def radar_data():
         
         dataset = {
             "label": g,
-            "data": [ambulatorio, internamentos, obitos],
+            "data": [obitos, ambulatorio, internamentos],
             "backgroundColor": background_color,
             "borderColor": border_color,
             "borderWidth": 1
@@ -501,7 +501,7 @@ def radar_data_faixa():
         
         dataset = {
             "label": faixa_etaria.get(faixa, "Invalid ID"),
-            "data": [ambulatorio, internamentos, obitos],
+            "data": [obitos, ambulatorio, internamentos],
             "backgroundColor": background_color,
             "borderColor": border_color,
             "borderWidth": 1
