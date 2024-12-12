@@ -56,7 +56,7 @@ def get_hospital(id):
       '''
       SELECT r.nome
       FROM HOSPITAIS h
-      JOIN REGIOES r
+      JOIN REGIOES r ON h.regiao_id = r.regiaao_id
       WHERE hospital_id = ?
       ''', [id]).fetchone()
 
